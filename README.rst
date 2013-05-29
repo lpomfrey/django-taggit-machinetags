@@ -1,0 +1,42 @@
+Django Taggit Machinetags
+=============================
+
+.. :Version: 0.1.0
+
+:Author: Luke Pomfrey
+
+Overview
+========
+
+This package provides machine tagging (i.e. property:value tagging) built on
+top of the `django-taggit <https://github.com/alex/django-taggit>` API.
+
+Usage
+=====
+
+Usage is the same as taggit, but tags can now be specified as, colon-separated,
+property-value pairs.
+
+::
+
+    # models.py
+    from django.db import models
+    from taggit_machinetags.managers import MachineTaggableManager
+    
+    class MyModel(models.Model):
+        
+        name = models.CharField(...)
+        tags = MachineTaggableManager()
+
+    #
+    >>> instance = MyModel.objects.all()[0]
+    >>> instance.tags.add('Property:Value')
+    >>> instance.tags.add('Taggy:McTag')
+    >>> instance.tags.get(namespace='Property')
+    <MachineTag: Property:Value>
+    >> MyModel.objects.filter(tags__slug='taggy:mctag')
+    <MyModel:...>
+
+Creating a tag with the string 'Property:Value' results in a MachineTag with
+the namespace ``namespace=Property``, ``name=Value``,
+``namespace_slug=property``, ``name_slug=value``, and ``slug=property:value``.
