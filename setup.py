@@ -65,7 +65,7 @@ setup(
     packages=get_packages('taggit_machinetags'),
     package_data=get_package_data('taggit_machinetags'),
     install_requires=open('requirements.txt').read().split('\n'),
-    test_requires=['django_any', 'mock'],
+    tests_require=['django_any', 'mock'],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
@@ -74,6 +74,5 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP',
     ]
 )
