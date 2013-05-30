@@ -81,12 +81,6 @@ class _MachineTaggableManager(_TaggableManager):
 class MachineTaggableManager(TaggableManager):
 
     def __init__(self, **kwargs):
-        kwargs.setdefault(
-            'help_text',
-            'A comma-separated list of tags, of the form Namespace:Value. '
-            'e.g. Genre:Crime, "Author:Authy McAuthor", '
-            'Binding:Hardback, "Artist:Arty McArtperson"'
-            'Use singular nouns for Property e.g. Book rather than Books.')
         kwargs.setdefault('through', MachineTaggedItem)
         return super(MachineTaggableManager, self).__init__(**kwargs)
 
