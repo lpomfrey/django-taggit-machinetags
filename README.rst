@@ -1,8 +1,7 @@
 Django Taggit Machinetags
 =============================
 
-.. :Version: 0.1.0
-
+:Version: 0.1.0
 :Author: Luke Pomfrey
 
 Overview
