@@ -8,7 +8,35 @@ Overview
 ========
 
 This package provides machine tagging (i.e. property:value tagging) built on
-top of the `django-taggit <https://github.com/alex/django-taggit>` API.
+top of `django-taggit <https://github.com/alex/django-taggit>`_.
+
+Installation
+============
+
+Grab from PyPI with:
+
+::
+    $ pip install django-taggit-machinetags
+
+Update your installed apps:
+
+::
+    INSTALLED_APPS = (
+        ...
+        'taggit',
+        'taggit_machinetags',
+        ...
+    )
+
+And run the migrations:
+
+::
+    $ python manage.py migrate
+
+Or if you're not using south (why are you not using south?):
+
+::
+    $ python manage.py syncdb
 
 Usage
 =====
