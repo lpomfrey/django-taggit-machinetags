@@ -16,11 +16,13 @@ Installation
 Grab from PyPI with:
 
 ::
+    
     $ pip install django-taggit-machinetags
 
 Update your installed apps:
 
 ::
+    
     INSTALLED_APPS = (
         ...
         'taggit',
@@ -31,11 +33,13 @@ Update your installed apps:
 And run the migrations:
 
 ::
+    
     $ python manage.py migrate
 
 Or if you're not using south (why are you not using south?):
 
 ::
+    
     $ python manage.py syncdb
 
 Usage
