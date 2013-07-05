@@ -1,17 +1,17 @@
 Django Taggit Machinetags
 =============================
 
-:Version: 0.2.0
-:Author: Luke Pomfrey
+.. image:: https://travis-ci.org/lpomfrey/django-taggit-machinetags.png?branch=master
+    :target: https://travis-ci.org/lpomfrey/django-taggit-machinetags
 
 Overview
-========
+--------
 
 This package provides machine tagging (i.e. property:value tagging) built on
 top of `django-taggit <https://github.com/alex/django-taggit>`_.
 
 Installation
-============
+------------
 
 Grab from PyPI with:
 
@@ -43,7 +43,7 @@ Or if you're not using south (why are you not using south?):
     $ python manage.py syncdb
 
 Usage
-=====
+-----
 
 Usage is the same as taggit, but tags can now be specified as, colon-separated,
 property-value pairs.
