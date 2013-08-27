@@ -38,7 +38,7 @@ setup(
     description='Machine tagging built upon django-taggit',
     author='Luke Pomfrey',
     author_email='lpomfrey@gmail.com',
-    packages=find_packages(),
+    packages=find_packages(exclude=['test_project']),
     install_requires=open('requirements.txt').read().split('\n'),
     tests_require=['django_any', 'mock'],
     test_suite='runtests.runtests',
