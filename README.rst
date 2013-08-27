@@ -1,8 +1,17 @@
 Django Taggit Machinetags
 =============================
 
+.. image:: https://badge.fury.io/py/django-taggit-machinetags.png
+    :target: http://badge.fury.io/py/django-taggit-machinetags
+
 .. image:: https://travis-ci.org/lpomfrey/django-taggit-machinetags.png?branch=master
     :target: https://travis-ci.org/lpomfrey/django-taggit-machinetags
+
+.. image:: https://coveralls.io/repos/lpomfrey/django-taggit-machinetags/badge.png?branch=master
+    :target: https://coveralls.io/r/lpomfrey/django-taggit-machinetags?branch=master
+
+.. image:: https://pypip.in/d/django-taggit-machinetags/badge.png
+        :target: https://crate.io/packages/django-taggit-machinetags?version=latest
 
 Overview
 --------
