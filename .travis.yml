@@ -2,7 +2,7 @@ language: python
 python:
     - "2.7"
 install:
-    - "pip install -r requirements.txt --use-mirrors"
+    - "pip install -r requirements.txt django_any mock --use-mirrors"
 before_script:
     - "pip install python-coveralls coverage"
 script:
