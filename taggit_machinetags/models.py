@@ -6,6 +6,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.template.defaultfilters import slugify
 from taggit.models import GenericTaggedItemBase
 
+from taggit_machinetags.fields import MachineSlugField
+
 
 @python_2_unicode_compatible
 class MachineTagBase(models.Model):
@@ -15,7 +17,7 @@ class MachineTagBase(models.Model):
     namespace = models.CharField(max_length=100, blank=True, default='')
     namespace_slug = models.SlugField(
         max_length=100, blank=True, default='', editable=False)
-    slug = models.SlugField(
+    slug = MachineSlugField(
         max_length=201, unique=True, db_index=True, editable=False)
 
     class Meta:

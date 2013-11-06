@@ -5,8 +5,9 @@ from django.test import TransactionTestCase
 from django_any import any_model
 from mock import Mock
 
-from .managers import _MachineTaggableManager, MachineTaggableManager
-from .models import MachineTag
+from taggit_machinetags.managers import (
+    _MachineTaggableManager, MachineTaggableManager)
+from taggit_machinetags.models import MachineTag
 
 
 class TestMachineTagModel(TransactionTestCase):
