@@ -21,6 +21,13 @@ version = get_version('taggit_machinetags')
 
 
 if sys.argv[-1] == 'publish':
+    try:
+        import wheel  # NOQA
+    except ImportError:
+        sys.stderr.write(
+            'You need to `pip install wheel` before running publish'
+        )
+        sys.exit(1)
     os.system('python setup.py sdist upload')
     os.system('python setup.py bdist_wheel upload')
     args = {'version': version}
