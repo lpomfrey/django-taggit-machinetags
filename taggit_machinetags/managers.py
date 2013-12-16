@@ -91,7 +91,14 @@ class MachineTaggableManager(TaggableManager):
                 'before you can access their tags.'
                 .format(model.__class__.__name__)
             )
-        manager = _MachineTaggableManager(
-            through=self.through, model=model, instance=instance
-        )
+        try:
+            manager = _MachineTaggableManager(
+                through=self.through, model=model, instance=instance
+            )
+        except TypeError:
+            # django-taggit>0.10
+            manager = _MachineTaggableManager(
+                through=self.through, model=model, instance=instance,
+                prefetch_cache_name=self.name
+            )
         return manager
