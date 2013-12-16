@@ -42,7 +42,10 @@ class TestMachineTagModel(TransactionTestCase):
 class TestMachineTaggableManager(TransactionTestCase):
 
     def test_tag_str_to_slug_dict(self):
-        manager = _MachineTaggableManager(None, None, None)
+        try:
+            manager = _MachineTaggableManager(None, None, None)
+        except TypeError:
+            manager = _MachineTaggableManager(None, None, None, None)
         self.assertEqual(
             manager._tag_str_to_slug_dict('Just a name', False),
             {'namespace_slug': '', 'name_slug': 'just-a-name'}
@@ -68,7 +71,10 @@ class TestMachineTaggableManager(TransactionTestCase):
         )
 
     def test_add(self):
-        manager = _MachineTaggableManager(None, None, None)
+        try:
+            manager = _MachineTaggableManager(None, None, None)
+        except TypeError:
+            manager = _MachineTaggableManager(None, None, None, None)
         manager.instance = 1
         manager.through = Mock()
         manager.through.tag_model.return_value = MachineTag
@@ -113,7 +119,10 @@ class TestMachineTaggableManager(TransactionTestCase):
     def test_remove(self):
         tag = MachineTag.objects.create(namespace='NS', name='N')
         tag_2 = MachineTag.objects.create(namespace='NS', name='N2')
-        manager = _MachineTaggableManager(None, None, None)
+        try:
+            manager = _MachineTaggableManager(None, None, None)
+        except TypeError:
+            manager = _MachineTaggableManager(None, None, None, None)
         manager.instance = 1
         manager.through = Mock()
         manager.through.tag_model.return_value = MachineTag
