@@ -9,6 +9,12 @@ from taggit_machinetags.models import MachineTaggedItem
 
 
 try:
+    from django.utils.six import string_types
+except ImportError:
+    string_types = basestring
+
+
+try:
     from south.modelsinspector import add_ignored_fields
     add_ignored_fields(
         ['^taggit_machinetags\.managers\.MachineTaggableManager'])
@@ -30,10 +36,22 @@ class _MachineTaggableManager(_TaggableManager):
 
     @require_instance_manager
     def add(self, *tags):
-        str_tags = set(
-            [t for t in tags if not isinstance(t, self.through.tag_model())]
-        )
-        tag_objs = set(tags) - str_tags
+        str_tags = set()
+        tag_objs = set()
+        for t in tags:
+            if isinstance(t, self.through.tag_model()):
+                if t.pk:
+                    tag_objs.add(t)
+                else:
+                    str_tags.add('{0.namespace}:{0.name}'.format(t))
+            elif isinstance(t, string_types):
+                str_tags.add(t)
+            else:
+                raise ValueError(
+                    'Cannot add {0} ({1}). Expected {2} or str.'.format(
+                        t, type(t), type(self.through.tag_model())
+                    )
+                )
 
         existing = []
         if str_tags:
