@@ -2,10 +2,12 @@ language: python
 python:
     - "2.7"
     - "3.3"
+    - "3.4"
     - "pypy"
 env:
     - DJANGO=">=1.4.3,<1.5"
     - DJANGO=">=1.5,<1.6"
+    - DJANGO=">=1.6,<1.7"
     - DJANGO=""
 install:
     - "pip install django-taggit django_any mock --use-mirrors"
@@ -21,4 +23,6 @@ notifications:
 matrix:
   exclude:
     - python: "3.3"
+      env: DJANGO=">=1.4.3,<1.5"
+    - python: "3.4"
       env: DJANGO=">=1.4.3,<1.5"
