@@ -10,9 +10,6 @@ Django Taggit Machinetags
 .. image:: https://coveralls.io/repos/lpomfrey/django-taggit-machinetags/badge.png?branch=master
     :target: https://coveralls.io/r/lpomfrey/django-taggit-machinetags?branch=master
 
-.. image:: https://pypip.in/d/django-taggit-machinetags/badge.png
-        :target: https://crate.io/packages/django-taggit-machinetags?version=latest
-
 Overview
 --------
 
