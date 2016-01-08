@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.test import TransactionTestCase
-from django_any import any_model
 from mock import Mock
 
 from taggit_machinetags.managers import (MachineTaggableManager,
@@ -13,8 +12,7 @@ from taggit_machinetags.models import MachineTag
 class TestMachineTagModel(TransactionTestCase):
 
     def test_save_sets_slugs(self):
-        tag = any_model(
-            MachineTag,
+        tag = MachineTag.objects.create(
             name='Some Name',
             name_slug='',
             namespace='Name Space',
@@ -25,7 +23,7 @@ class TestMachineTagModel(TransactionTestCase):
         self.assertEqual(tag.namespace_slug, 'name-space')
         self.assertEqual(tag.slug, 'name-space:some-name')
         tag.delete()
-        tag = any_model(
+        tag = MachineTag.objects.create(
             MachineTag,
             name='Some Name',
             name_slug='n',
