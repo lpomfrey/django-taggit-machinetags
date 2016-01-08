@@ -10,7 +10,7 @@ env:
     - DJANGO="django>=1.9"
 install:
     - "pip install django-taggit django_any mock --use-mirrors"
-    - "pip install django${DJANGO}"
+    - "pip install ${DJANGO}"
 before_script:
     - "pip install python-coveralls coverage"
 script:
