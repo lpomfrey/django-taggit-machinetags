@@ -3,23 +3,11 @@ from __future__ import unicode_literals
 
 from django.db.models import Q
 from django.template.defaultfilters import slugify
-from taggit.managers import _TaggableManager, TaggableManager
+from django.utils.six import string_types
+from taggit.managers import TaggableManager, _TaggableManager
 from taggit.utils import require_instance_manager
+
 from taggit_machinetags.models import MachineTaggedItem
-
-
-try:
-    from django.utils.six import string_types
-except ImportError:
-    string_types = basestring
-
-
-try:
-    from south.modelsinspector import add_ignored_fields
-    add_ignored_fields(
-        ['^taggit_machinetags\.managers\.MachineTaggableManager'])
-except ImportError:
-    pass
 
 
 class _MachineTaggableManager(_TaggableManager):
