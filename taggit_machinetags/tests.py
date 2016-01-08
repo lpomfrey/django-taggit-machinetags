@@ -24,7 +24,6 @@ class TestMachineTagModel(TransactionTestCase):
         self.assertEqual(tag.slug, 'name-space:some-name')
         tag.delete()
         tag = MachineTag.objects.create(
-            MachineTag,
             name='Some Name',
             name_slug='n',
             namespace='Name Space',
