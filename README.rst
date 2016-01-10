@@ -42,11 +42,6 @@ And run the migrations:
     
     $ python manage.py migrate
 
-Or if you're not using south (why are you not using south?):
-
-::
-    
-    $ python manage.py syncdb
 
 Usage
 -----
