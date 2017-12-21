@@ -53,4 +53,7 @@ class MachineTag(MachineTagBase):
 class MachineTaggedItem(GenericTaggedItemBase):
 
     tag = models.ForeignKey(
-        'MachineTag', related_name="%(app_label)s_%(class)s_items")
+        'MachineTag',
+        related_name='%(app_label)s_%(class)s_items',
+        on_delete=models.CASCADE
+    )

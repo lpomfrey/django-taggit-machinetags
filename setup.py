@@ -19,6 +19,9 @@ def get_version(package):
 
 version = get_version('taggit_machinetags')
 
+required = [
+    'django-taggit>=0.12'
+]
 
 if sys.argv[-1] == 'publish':
     try:
@@ -47,7 +50,7 @@ setup(
     author='Luke Pomfrey',
     author_email='lpomfrey@gmail.com',
     packages=find_packages(exclude=['test_project']),
-    install_requires=open('requirements.txt').read().split('\n'),
+    install_requires=required,
     tests_require=['mock'],
     test_suite='runtests.runtests',
     classifiers=[
@@ -58,14 +61,15 @@ setup(
         'Operating System :: OS Independent',
         'Framework :: Django',
         'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ]
