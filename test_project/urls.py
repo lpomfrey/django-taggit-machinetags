@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-try:
-    from django.conf.urls import include, url
-except ImportError:
-    from django.urls import include, url
+from django.conf.urls import include, url
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
