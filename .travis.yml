@@ -1,15 +1,18 @@
 language: python
 python:
     - "2.7"
-    - "3.3"
     - "3.4"
     - "3.5"
+    - "3.6"
     - "pypy"
 env:
     - DJANGO="django>=1.8,<1.9"
-    - DJANGO="django>=1.9"
+    - DJANGO="django>=1.9,<1.10"
+    - DJANGO="django>=1.10,<1.11"
+    - DJANGO="django>=1.11,<2.0"
+    - DJANGO="django>=2.0,<2.1"
 install:
-    - "pip install django-taggit django_any mock --use-mirrors"
+    - "pip install django-taggit django_any mock"
     - "pip install ${DJANGO}"
 before_script:
     - "pip install python-coveralls coverage"
@@ -21,5 +24,5 @@ notifications:
     email: false
 matrix:
   exclude:
-    - python: "3.3"
-      env: DJANGO="django>=1.9"
+    - python: "2.7"
+      env: DJANGO="django>=2.0,<2.1"
