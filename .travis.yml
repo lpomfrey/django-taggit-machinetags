@@ -1,25 +1,36 @@
+sudo: false
 language: python
+
 python:
-    - "2.7"
-    - "3.3"
-    - "3.4"
-    - "3.5"
-    - "pypy"
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "pypy"
+
 env:
-    - DJANGO="django>=1.8,<1.9"
-    - DJANGO="django>=1.9"
-install:
-    - "pip install django-taggit django_any mock --use-mirrors"
-    - "pip install ${DJANGO}"
-before_script:
-    - "pip install python-coveralls coverage"
-script:
-    - "coverage run runtests.py"
-after_success:
-    - "coveralls"
-notifications:
-    email: false
+  - DJANGO="1.8.x"
+  - DJANGO="1.9.x"
+  - DJANGO="1.10.x"
+  - DJANGO="1.11.x"
+  - DJANGO="2.0.x"
+
 matrix:
   exclude:
-    - python: "3.3"
-      env: DJANGO="django>=1.9"
+    - python: "2.7"
+      env: "DJANGO=2.0.x"
+
+before_install:
+  - pip install python-coveralls
+
+install:
+  - pip install tox
+
+script:
+  - TOX_TEST_PASSENV="TRAVIS TRAVIS_JOB_ID TRAVIS_BRANCH" tox -e py${TRAVIS_PYTHON_VERSION//[.]/}-${DJANGO}
+
+after_success:
+  - coveralls
+
+notifications:
+    email: false
