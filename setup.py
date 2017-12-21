@@ -23,21 +23,29 @@ required = [
     'django-taggit>=0.12'
 ]
 
+
+_PUBLISH_WARNING = '''
+******************
+!!! DEPRECATED !!!
+******************
+
+Use twine to publish packages to pypi now.
+
+Ensure you have the `wheel` and `twine` packages installed with
+
+    pip install wheel twine
+
+Then create some distributions like
+
+    python setup.py sdist bdist_wheel
+
+Then upload with twine
+
+    twine upload dist/*
+'''
+
 if sys.argv[-1] == 'publish':
-    try:
-        import wheel  # NOQA
-    except ImportError:
-        sys.stderr.write(
-            'You need to `pip install wheel` before running publish'
-        )
-        sys.exit(1)
-    os.system('python setup.py sdist upload')
-    os.system('python setup.py bdist_wheel upload')
-    args = {'version': version}
-    print('You probably want to also tag the version now:')
-    print(' git tag -a {version} -m \'version {version}\''.format(
-        **args))
-    print(' git push --tags')
+    print(_PUBLISH_WARNING)
     sys.exit()
 
 
