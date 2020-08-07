@@ -2,14 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.text import slugify
 from taggit.models import GenericTaggedItemBase
 
 from taggit_machinetags.fields import MachineSlugField
 
 
-@python_2_unicode_compatible
 class MachineTagBase(models.Model):
 
     name = models.CharField(max_length=100)

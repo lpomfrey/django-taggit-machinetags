@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.db.models import Q
 from django.template.defaultfilters import slugify
-from django.utils.six import string_types
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.utils import require_instance_manager
 
@@ -32,7 +31,7 @@ class _MachineTaggableManager(_TaggableManager):
                     tag_objs.add(t)
                 else:
                     str_tags.add('{0.namespace}:{0.name}'.format(t))
-            elif isinstance(t, string_types):
+            elif isinstance(t, str):
                 str_tags.add(t)
             else:
                 raise ValueError(
