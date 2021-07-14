@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db.models import Q
+from django.db import router
+from django.db.models import Q, signals
 from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager, _TaggableManager
 from taggit.utils import require_instance_manager
@@ -22,10 +23,11 @@ class _MachineTaggableManager(_TaggableManager):
 
         return slug_dict
 
-    @require_instance_manager
-    def add(self, *tags, through_defaults=None, tag_kwargs=None, **kwargs):
+    def _to_tag_model_instances(self, tags, tag_kwargs=None):
         if tag_kwargs is None:
             tag_kwargs = {}
+
+        db = router.db_for_write(self.through, instance=self.instance)
 
         str_tags = set()
         tag_objs = set()
@@ -45,6 +47,7 @@ class _MachineTaggableManager(_TaggableManager):
                     )
                 )
 
+        manager = self.through.tag_model()._default_manager.using(db)
         existing = []
 
         if str_tags:
@@ -52,7 +55,7 @@ class _MachineTaggableManager(_TaggableManager):
 
             for st in str_tags:
                 q.add(Q(**self._tag_str_to_slug_dict(st, False)), Q.OR)
-            existing = self.through.tag_model().objects.filter(q)
+            existing = manager.filter(q)
 
         tag_objs.update(existing)
 
@@ -60,37 +63,63 @@ class _MachineTaggableManager(_TaggableManager):
 
         for new_tag in str_tags - existing_slugs:
             tag_objs.add(
-                self.through.tag_model().objects.get_or_create(
-                    **self._tag_str_to_slug_dict(new_tag)
-                )[0]
+                manager.get_or_create(**self._tag_str_to_slug_dict(new_tag))[0]
             )
 
         for tag in tag_objs:
             if not tag.pk:
                 tag.save()
-            self.through.objects.get_or_create(
-                tag=tag, **self._lookup_kwargs(), defaults=through_defaults
-            )
+
+        return tag_objs
 
     @require_instance_manager
     def remove(self, *tags):
-        str_tags = set([t for t in tags if not isinstance(t, self.through.tag_model())])
+        if not tags:
+            return
+
+        db = router.db_for_write(self.through, instance=self.instance)
+
+        str_tags = set(
+            [t for t in tags if not isinstance(t, self.through.tag_model())]
+        )
         tag_objs = set(tags) - str_tags
 
         tags_from_str = []
-
         if str_tags:
             q = Q()
-
             for st in str_tags:
                 q.add(Q(**self._tag_str_to_slug_dict(st, False)), Q.OR)
             tags_from_str = self.through.tag_model().objects.filter(q)
 
         tag_objs.update(tags_from_str)
 
-        self.through.objects.filter(**self._lookup_kwargs()).filter(
-            tag__in=list(tag_objs)
-        ).delete()
+        qs = (
+            self.through._default_manager.using(db)
+            .filter(**self._lookup_kwargs())
+            .filter(tag__in=tag_objs)
+        )
+
+        old_ids = set(qs.values_list("tag_id", flat=True))
+
+        signals.m2m_changed.send(
+            sender=self.through,
+            action="pre_remove",
+            instance=self.instance,
+            reverse=False,
+            model=self.through.tag_model(),
+            pk_set=old_ids,
+            using=db,
+        )
+        qs.delete()
+        signals.m2m_changed.send(
+            sender=self.through,
+            action="post_remove",
+            instance=self.instance,
+            reverse=False,
+            model=self.through.tag_model(),
+            pk_set=old_ids,
+            using=db,
+        )
 
 
 class MachineTaggableManager(TaggableManager):
@@ -105,17 +134,10 @@ class MachineTaggableManager(TaggableManager):
                 "{0} objects need to have a primary key value "
                 "before you can access their tags.".format(model.__class__.__name__)
             )
-        try:
-            manager = _MachineTaggableManager(
-                through=self.through, model=model, instance=instance
-            )
-        except TypeError:
-            # django-taggit>0.10
-            manager = _MachineTaggableManager(
-                through=self.through,
-                model=model,
-                instance=instance,
-                prefetch_cache_name=self.name,
-            )
 
-        return manager
+        return _MachineTaggableManager(
+            through=self.through,
+            model=model,
+            instance=instance,
+            prefetch_cache_name=self.name,
+        )
